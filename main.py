@@ -20,3 +20,16 @@ class Query:
             Movie(title="Fight Club", director="David Fincher"),
         ]
         return movies_data
+    
+schema = strawberry.Schema(query=Query)
+app = FastAPI()
+
+@app.get("/")
+def index():
+    return {"message": "Welcome to the GraphQL API"}
+
+app.add_route("/graphql", GraphQL(schema, debug=True))
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
